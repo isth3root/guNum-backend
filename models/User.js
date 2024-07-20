@@ -5,9 +5,9 @@ const userSchema = new mongoose.Schema({
   username: { type: String, unique: true, required: true },
   password: {type: String, require: true},
   score: {
-    easy: {type: Number, default: 10},
-    medium: {type: Number, default: 50},
-    hard: {type: Number, default: 100}
+    easy: {type: Number, default: 50},
+    medium: {type: Number, default: 100},
+    hard: {type: Number, default: 200}
   }
 },{
   versionKey: false

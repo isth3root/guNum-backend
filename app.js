@@ -29,7 +29,7 @@ app.use('/hs', highScoresRouter);
 app.use('/users', usersRouter);
 
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+  console.log(`Server is running on ${PORT}`);
 });
 
 export default app;
