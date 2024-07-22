@@ -7,6 +7,7 @@ export const sendDuelRequest = async (req, res) => {
   try {
     const senderUser = await User.findOne({ username: senderUsername });
     const receiverUser = await User.findOne({ username: receiverUsername });
+    if (senderUser == receiverUser) return
 
     if (!senderUser || !receiverUser) {
       return res.status(404).json({ error: "One or both users not found" });
