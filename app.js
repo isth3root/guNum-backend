@@ -6,6 +6,7 @@ import dotenv from 'dotenv';
 import highScoresRouter from './routes/highScores.js';
 import usersRouter from './routes/users.js';
 import cors from "cors";
+import duelRoutes from "./routes/duel.js"
 
 dotenv.config();
 const app = express();
@@ -27,6 +28,7 @@ app.use(bodyParser.json());
 
 app.use('/hs', highScoresRouter);
 app.use('/users', usersRouter);
+app.use('/duel', duelRoutes)
 
 app.listen(PORT, () => {
   console.log(`Server is running on ${PORT}`);

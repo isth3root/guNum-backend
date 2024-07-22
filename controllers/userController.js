@@ -1,5 +1,4 @@
-
-import User from '../models/User.js';
+import User from "../models/User.js";
 
 export const addUsers = async (req, res) => {
   const { username, password } = req.body;
@@ -9,9 +8,9 @@ export const addUsers = async (req, res) => {
 
     if (user) {
       if (user.password != password) {
-        res.status(403).json({ message: "wrong password" })
+        res.status(403).json({ message: "wrong password" });
       } else {
-        res.status(200).json( user );
+        res.status(200).json(user);
       }
     } else {
       user = new User({ username, password });
@@ -20,19 +19,35 @@ export const addUsers = async (req, res) => {
     }
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'Server error' });
+    res.status(500).json({ error: "Server error" });
   }
 };
 
 export const getUsers = async (req, res) => {
   try {
-    const users = await User.find({}).sort({score: -1})
-    res.status(200).json(users)
+    const users = await User.find({}).sort({ score: -1 });
+    res.status(200).json(users);
   } catch (err) {
-    console.error(err)
-    res.status(500).json({error: "server error"})
+    console.error(err);
+    res.status(500).json({ error: "server error" });
   }
-}
+};
+
+export const getSingleUser = async (req, res) => {
+  const  username  = req.query.username;
+  try {
+    const user = await User.findOne({ username }).select('-password');
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json(user);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "server error" });
+  }
+};
 
 export const deleteUser = async (req, res) => {
   const { username } = req.body;
@@ -42,12 +57,12 @@ export const deleteUser = async (req, res) => {
 
     if (user) {
       await User.deleteOne({ username });
-      res.status(200).json({ message: 'User deleted' });
+      res.status(200).json({ message: "User deleted" });
     } else {
-      res.status(404).json({ message: 'User not found' });
+      res.status(404).json({ message: "User not found" });
     }
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'Server error' });
+    res.status(500).json({ error: "Server error" });
   }
 };

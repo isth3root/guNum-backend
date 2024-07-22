@@ -8,7 +8,8 @@ const userSchema = new mongoose.Schema({
     easy: {type: Number, default: 50},
     medium: {type: Number, default: 100},
     hard: {type: Number, default: 200}
-  }
+  },
+  duelXP: {type: Number, default: 0}
 },{
   versionKey: false
 });
