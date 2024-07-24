@@ -25,7 +25,7 @@ export const signup = async (req, res) => {
 
     res.cookie("token", token, {
       httpOnly: true,
-      secure: true,
+      secure: false,
       sameSite: "Strict",
     });
     res
@@ -48,7 +48,7 @@ export const login = async (req, res) => {
     const token = jwt.sign({ id: user._id }, secret, { expiresIn: "15d" });
     res.cookie("token", token, {
       httpOnly: true,
-      secure: true,
+      secure: false,
       sameSite: "Strict",
     });
     res.status(201).json( user );

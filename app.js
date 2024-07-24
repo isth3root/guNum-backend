@@ -11,10 +11,11 @@ import cookieParser from 'cookie-parser';
 
 dotenv.config();
 const PORT = process.env.PORT;
-
+const frontCode = process.env.FRONT_PORT;
 const app = express();
 app.use(cors({
   origin: "https://gunumber.netlify.app",
+  // origin: `http://localhost:${frontCode}`,
   credentials: true
 }))
 app.use(cookieParser())
