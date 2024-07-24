@@ -1,12 +1,24 @@
+import express from "express";
+import {
+  signup,
+  login,
+  logout,
+  getUsers,
+  deleteUser,
+  getSingleUser,
+  changeUsername,
+} from "../controllers/userController.js";
 
-import express from 'express';
-import { addUsers, getUsers, deleteUser, getSingleUser } from '../controllers/userController.js';
+import { authenticateToken } from "../middleware/auth.js";
 
 const router = express.Router();
 
-router.get('/all', getUsers);
-router.post('/add', addUsers);
-router.delete("/delete", deleteUser)
-router.get('/one', getSingleUser)
+router.post("/signup", signup);
+router.post("/login", login);
+router.post("/logout", logout)
+router.delete("/delete", authenticateToken, deleteUser);
+router.get("/all", authenticateToken, getUsers);
+router.get("/one", authenticateToken, getSingleUser);
+router.put("/changeusername", authenticateToken, changeUsername);
 
 export default router;

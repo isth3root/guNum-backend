@@ -7,11 +7,18 @@ import highScoresRouter from './routes/highScores.js';
 import usersRouter from './routes/users.js';
 import cors from "cors";
 import duelRoutes from "./routes/duel.js"
+import cookieParser from 'cookie-parser';
 
 dotenv.config();
-const app = express();
-app.use(cors())
 const PORT = process.env.PORT;
+
+const app = express();
+app.use(cors({
+  origin: "http://localhost:5173",
+  credentials: true
+}))
+app.use(cookieParser())
+app.use(bodyParser.json())
 
 mongoose.connect(process.env.MONGOOSE_URL)
   .then(() => {

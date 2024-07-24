@@ -7,10 +7,23 @@ export const sendDuelRequest = async (req, res) => {
   try {
     const senderUser = await User.findOne({ username: senderUsername });
     const receiverUser = await User.findOne({ username: receiverUsername });
-    if (senderUser == receiverUser) return
 
     if (!senderUser || !receiverUser) {
       return res.status(404).json({ error: "One or both users not found" });
+    }
+
+    if (senderUser.username == receiverUser.username) {
+      return res.status(400).json({message : "Can't Request yourself"})
+    }
+
+    const existingDuel = await Duel.findOne({
+      sender: senderUser._id,
+      receiver: receiverUser._id,
+      status : "PENDING"
+    })
+
+    if (existingDuel) {
+      return res.status(400).json({ message: "A pending duel request already exists between these users" });
     }
 
     const duel = new Duel({
@@ -137,7 +150,6 @@ export const recordDuelGuesses = async (req, res) => {
 
 export const getUserDuelRequests = async (req, res) => {
   const { username } = req.query;
-
   if (!username) {
     return res.status(400).json({ message: "Username is required" });
   }

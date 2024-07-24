@@ -9,32 +9,33 @@ import {
   getFinishedDuels,
   deleteDuel
 } from '../controllers/duelController.js';
+import { authenticateToken } from '../middleware/auth.js';
 
 const router = express.Router();
 
 
-router.post('/send', sendDuelRequest);
+router.post('/send', authenticateToken, sendDuelRequest);
 
 
-router.post('/accept', acceptDuelRequest);
+router.post('/accept',authenticateToken, acceptDuelRequest);
 
 
-router.post('/deny', denyDuelRequest);
+router.post('/deny',authenticateToken, denyDuelRequest);
 
 
-router.post('/delete', deleteDuel)
+router.post('/delete',authenticateToken, deleteDuel)
 
 
-router.post('/record', recordDuelGuesses);
+router.post('/record',authenticateToken, recordDuelGuesses);
 
 
-router.get('/requests', getUserDuelRequests);
+router.get('/requests',authenticateToken, getUserDuelRequests);
 
 
-router.get('/active', getActiveDuels);
+router.get('/active',authenticateToken, getActiveDuels);
 
 
-router.get('/finished', getFinishedDuels);
+router.get('/finished',authenticateToken, getFinishedDuels);
 
 
 export default router;
