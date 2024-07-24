@@ -14,7 +14,7 @@ const PORT = process.env.PORT;
 
 const app = express();
 app.use(cors({
-  origin: "http://localhost:5173",
+  origin: "https://gunumber.netlify.app/signup",
   credentials: true
 }))
 app.use(cookieParser())
