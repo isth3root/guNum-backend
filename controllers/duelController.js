@@ -139,8 +139,8 @@ export const recordDuelGuesses = async (req, res) => {
       res.status(200).json({ message: "Guesses recorded", duel });
     } else {
       res
-        .status(400)
-        .json({ message: "Both players need to record their guesses" });
+        .status(200)
+        .json({ message: "waiting for the other player to play" });
     }
   } catch (err) {
     console.error(err);

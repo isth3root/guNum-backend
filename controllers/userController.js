@@ -25,8 +25,8 @@ export const signup = async (req, res) => {
 
     res.cookie("token", token, {
       httpOnly: true,
-      secure: false,
-      sameSite: "Strict",
+      secure: true,
+      sameSite: "Lax",
     });
     res
       .status(201)
@@ -48,8 +48,8 @@ export const login = async (req, res) => {
     const token = jwt.sign({ id: user._id }, secret, { expiresIn: "15d" });
     res.cookie("token", token, {
       httpOnly: true,
-      secure: false,
-      sameSite: "Strict",
+      secure: true,
+      sameSite: "Lax",
     });
     res.status(201).json( user );
   } catch (err) {
@@ -84,6 +84,27 @@ export const getUsers = async (req, res) => {
     res.status(500).json({ error: "Error during getting all users" });
   }
 };
+
+export const sortUsers = async (req, res) => {
+
+  const {difficulty} = req.query;
+  try {
+    const sortCriteria = {
+      easy: { score: { easy: 1 } },
+      medium: { score: { medium: 1 } },
+      hard: { score: { hard: 1 } },
+      DuelXP: { duelXP: -1 }
+    };
+
+    const sort = sortCriteria[difficulty] || sortCriteria["DuelXP"]
+
+    const users = await User.find({}).sort(sort).select("-password")
+
+    res.status(200).json(users)
+  }catch(err) {
+    res.status(500).json({ error: "Error during sorting users" });
+  }
+}
 
 export const getSingleUser = async (req, res) => {
   const username = req.query.username;
