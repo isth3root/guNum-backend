@@ -1,4 +1,4 @@
-import User from '../models/User.js';
+import User from "../models/User.js";
 
 export const saveHighScore = async (req, res) => {
   const { username, score, difficulty } = req.body;
@@ -7,7 +7,7 @@ export const saveHighScore = async (req, res) => {
     let user = await User.findOne({ username });
 
     if (!user) {
-      return res.status(404).json({ "message": "User not found" });
+      return res.status(404).json({ message: "User not found" });
     }
 
     if (difficulty === "EASY") {
@@ -23,13 +23,13 @@ export const saveHighScore = async (req, res) => {
         user.score.hard = score;
       }
     } else {
-      return res.status(400).json({ "message": "Invalid difficulty level" });
+      return res.status(400).json({ message: "Invalid difficulty level" });
     }
 
     await user.save();
     res.status(200).json({ score });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'Server error' });
+    res.status(500).json({ error: "Server error" });
   }
 };

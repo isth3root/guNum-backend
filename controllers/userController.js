@@ -19,18 +19,11 @@ export const signup = async (req, res) => {
     user = new User({ username, password: hashedPassword });
     await user.save();
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ id: user._id }, secret, {
       expiresIn: "15d",
     });
 
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: true,
-      sameSite: "Lax",
-    });
-    res
-      .status(201)
-      .json( user );
+    res.status(201).json({ user, token });
   } catch (err) {
     res.status(500).json({ error: "Error during signup" });
   }
@@ -46,12 +39,8 @@ export const login = async (req, res) => {
     }
 
     const token = jwt.sign({ id: user._id }, secret, { expiresIn: "15d" });
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: true,
-      sameSite: "Lax",
-    });
-    res.status(201).json( user );
+
+    res.status(201).json({ user, token });
   } catch (err) {
     res.status(500).json({ error: "Error during Login" });
   }
@@ -78,7 +67,7 @@ export const logout = async (req, res) => {
 
 export const getUsers = async (req, res) => {
   try {
-    const users = await User.find({}).sort({score: -1});
+    const users = await User.find({}).sort({ score: -1 });
     res.status(200).json(users);
   } catch (err) {
     res.status(500).json({ error: "Error during getting all users" });
@@ -86,25 +75,24 @@ export const getUsers = async (req, res) => {
 };
 
 export const sortUsers = async (req, res) => {
-
-  const {difficulty} = req.query;
+  const { difficulty } = req.query;
   try {
     const sortCriteria = {
       easy: { score: { easy: 1 } },
       medium: { score: { medium: 1 } },
       hard: { score: { hard: 1 } },
-      DuelXP: { duelXP: -1 }
+      DuelXP: { duelXP: -1 },
     };
 
-    const sort = sortCriteria[difficulty] || sortCriteria["DuelXP"]
+    const sort = sortCriteria[difficulty] || sortCriteria["DuelXP"];
 
-    const users = await User.find({}).sort(sort).select("-password")
+    const users = await User.find({}).sort(sort).select("-password");
 
-    res.status(200).json(users)
-  }catch(err) {
+    res.status(200).json(users);
+  } catch (err) {
     res.status(500).json({ error: "Error during sorting users" });
   }
-}
+};
 
 export const getSingleUser = async (req, res) => {
   const username = req.query.username;

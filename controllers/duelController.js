@@ -13,17 +13,21 @@ export const sendDuelRequest = async (req, res) => {
     }
 
     if (senderUser.username == receiverUser.username) {
-      return res.status(400).json({message : "Can't Request yourself"})
+      return res.status(400).json({ message: "Can't Request yourself" });
     }
 
     const existingDuel = await Duel.findOne({
       sender: senderUser._id,
       receiver: receiverUser._id,
-      status : "PENDING"
-    })
+      status: "PENDING",
+    });
 
     if (existingDuel) {
-      return res.status(400).json({ message: "A pending duel request already exists between these users" });
+      return res
+        .status(400)
+        .json({
+          message: "A pending duel request already exists between these users",
+        });
     }
 
     const duel = new Duel({
@@ -40,7 +44,6 @@ export const sendDuelRequest = async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 };
-
 
 export const acceptDuelRequest = async (req, res) => {
   const { duelId } = req.body;
@@ -72,15 +75,15 @@ export const denyDuelRequest = async (req, res) => {
 };
 
 export const deleteDuel = async (req, res) => {
-    const { duelId } = req.body;
-    try {
-      await Duel.findByIdAndDelete(duelId);
-      res.status(200).json({ message: "Duel deleted" });
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ error: "Server error" });
-    }
-  };
+  const { duelId } = req.body;
+  try {
+    await Duel.findByIdAndDelete(duelId);
+    res.status(200).json({ message: "Duel deleted" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
+};
 
 export const recordDuelGuesses = async (req, res) => {
   const { duelId, username, guesses } = req.body;
@@ -99,7 +102,6 @@ export const recordDuelGuesses = async (req, res) => {
 
     if (duel.sender.toString() === user._id.toString()) {
       duel.senderGuesses = guesses;
-
     } else if (duel.receiver.toString() === user._id.toString()) {
       duel.receiverGuesses = guesses;
     }
@@ -138,9 +140,7 @@ export const recordDuelGuesses = async (req, res) => {
 
       res.status(200).json({ message: "Guesses recorded", duel });
     } else {
-      res
-        .status(200)
-        .json({ message: "waiting for the other player to play" });
+      res.status(200).json({ message: "waiting for the other player to play" });
     }
   } catch (err) {
     console.error(err);
