@@ -1,5 +1,5 @@
 import express from "express";
-import { saveHighScore } from "../controllers/highScoreController.js";
+import { saveHighScore } from "../controllers/highScore.js";
 import { authenticateToken } from "../middleware/auth.js";
 
 const router = express.Router();

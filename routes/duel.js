@@ -8,7 +8,7 @@ import {
   getActiveDuels,
   getFinishedDuels,
   deleteDuel,
-} from "../controllers/duelController.js";
+} from "../controllers/duel.js";
 import { authenticateToken } from "../middleware/auth.js";
 
 const router = express.Router();

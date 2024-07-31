@@ -8,9 +8,9 @@ import {
   getUsers,
   getSingleUser,
   changeUsername,
-} from "../controllers/userController.js";
+} from "../controllers/user.js";
 
-import { authenticateToken } from "../middleware/auth.js";
+// import { authenticateToken } from "../middleware/auth.js";
 
 const router = express.Router();
 
@@ -18,9 +18,9 @@ router.post("/signup", signup);
 router.post("/login", login);
 router.post("/logout", logout);
 router.delete("/delete", deleteUser);
-router.get("/sort", authenticateToken, sortUsers);
-router.get("/all", authenticateToken, getUsers);
-router.get("/one", authenticateToken, getSingleUser);
-router.put("/changeusername", authenticateToken, changeUsername);
+router.get("/sort", sortUsers);
+router.get("/all", getUsers);
+router.get("/one", getSingleUser);
+router.put("/changeusername", changeUsername);
 
 export default router;

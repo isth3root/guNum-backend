@@ -2,11 +2,13 @@ import express from "express";
 import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import dotenv from "dotenv";
-import highScoresRouter from "./routes/highScores.js";
-import usersRouter from "./routes/users.js";
+import highScores from "./routes/highScores.js";
+import users from "./routes/users.js";
 import cors from "cors";
-import duelRoutes from "./routes/duel.js";
+import duel from "./routes/duel.js";
+import word from "./routes/word.js"
 import cookieParser from "cookie-parser";
+import wordDuel from "./routes/wordDuel.js"
 
 dotenv.config();
 const PORT = process.env.PORT;
@@ -15,7 +17,7 @@ const app = express();
 app.use(
   cors({
     origin: "https://gunumber.netlify.app",
-    // origin: `http://localhost:${frontPort}`,
+    // origin: `http://localhost:5173`,
   })
 );
 app.use(cookieParser());
@@ -35,9 +37,11 @@ db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
 app.use(bodyParser.json());
 
-app.use("/hs", highScoresRouter);
-app.use("/users", usersRouter);
-app.use("/duel", duelRoutes);
+app.use("/hs", highScores);
+app.use("/users", users);
+app.use("/duel", duel);
+app.use("/word", word);
+app.use("/word-duel",wordDuel)
 
 app.listen(PORT, () => {
   console.log(`Server is running on ${PORT}`);
