@@ -1,14 +1,14 @@
 import Word from "../models/Word.js"
 
 export const getSingleWord = async (req, res) => {
-    const { subject, difficulty, language } = req.query;
+    const { subject, language } = req.query;
 
     if (!language || !['English', 'Persian'].includes(language)) {
         return res.status(400).json({ message: 'Invalid or missing language parameter' });
     }
 
     try {
-        const result = await Word.findOne({ subject, difficulty, language });
+        const result = await Word.findOne({ subject, language });
         
         if (!result) {
             return res.status(404).json({ message: 'No words found for the given criteria' });
