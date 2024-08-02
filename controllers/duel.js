@@ -1,3 +1,4 @@
+// ========== MODELS ========== \\
 import User from "../models/User.js";
 import Duel from "../models/Duel.js";
 
@@ -115,8 +116,8 @@ export const recordDuelGuesses = async (req, res) => {
         winner = duel.receiver;
       } else {
         // Tie
-        await User.findByIdAndUpdate(duel.sender, { $inc: { duelXP: 2 } });
-        await User.findByIdAndUpdate(duel.receiver, { $inc: { duelXP: 2 } });
+        await User.findByIdAndUpdate(duel.sender, { $inc: { numDuelXP: 2 } });
+        await User.findByIdAndUpdate(duel.receiver, { $inc: { numDuelXP: 2 } });
         duel.status = "FINISHED";
         await duel.save();
         return res
@@ -132,7 +133,7 @@ export const recordDuelGuesses = async (req, res) => {
             : duel.difficulty === "MEDIUM"
             ? 6
             : 10;
-        await User.findByIdAndUpdate(winner, { $inc: { duelXP: xp } });
+        await User.findByIdAndUpdate(winner, { $inc: { numDuelXP: xp } });
       }
 
       duel.status = "FINISHED";

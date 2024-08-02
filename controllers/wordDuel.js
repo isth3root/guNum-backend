@@ -1,3 +1,4 @@
+// ========== MODELS ========== \\
 import User from '../models/User.js';
 import WordDuel from '../models/wordDuel.js';
 import Word from '../models/Word.js';

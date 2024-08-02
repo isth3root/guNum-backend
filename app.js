@@ -1,23 +1,27 @@
+// ========== PACKAGES ========== \\
 import express from "express";
 import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import dotenv from "dotenv";
+import cors from "cors";
+import cookieParser from "cookie-parser";
+
+// ========== ROUTES ========== \\
 import highScores from "./routes/highScores.js";
 import users from "./routes/users.js";
-import cors from "cors";
 import duel from "./routes/duel.js";
 import word from "./routes/word.js"
-import cookieParser from "cookie-parser";
 import wordDuel from "./routes/wordDuel.js"
 
 dotenv.config();
-const PORT = process.env.PORT;
-const frontPort = process.env.FRONT_PORT;
+
+const localPORT = process.env.LOCALHOST_PORT;
+const devPORT = process.env.DEV_PORT;
 const app = express();
 app.use(
   cors({
-    origin: "https://gunumber.netlify.app",
-    // origin: `http://localhost:5173`,
+    // origin: "https://gunumber.netlify.app",
+    origin: `http://localhost:${devPORT}`,
   })
 );
 app.use(cookieParser());
@@ -43,8 +47,8 @@ app.use("/duel", duel);
 app.use("/word", word);
 app.use("/word-duel",wordDuel)
 
-app.listen(PORT, () => {
-  console.log(`Server is running on ${PORT}`);
+app.listen(localPORT, () => {
+  console.log(`Server is running on ${localPORT}`);
 });
 
 export default app;

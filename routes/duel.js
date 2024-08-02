@@ -1,4 +1,8 @@
+// ========== PACKAGES ========== \\
 import express from "express";
+
+
+// ========== CONTROLLERS ========== \\
 import {
   sendDuelRequest,
   acceptDuelRequest,
@@ -9,17 +13,19 @@ import {
   getFinishedDuels,
   deleteDuel,
 } from "../controllers/duel.js";
-import { authenticateToken } from "../middleware/auth.js";
+
+// ========== MIDDLEWARE ========== \\
+import { authenticateToken as generalAuth} from "../middleware/auth.js";
 
 const router = express.Router();
 
-router.post("/send", authenticateToken, sendDuelRequest);
-router.post("/accept", authenticateToken, acceptDuelRequest);
-router.post("/deny", authenticateToken, denyDuelRequest);
-router.post("/delete", authenticateToken, deleteDuel);
-router.post("/record", authenticateToken, recordDuelGuesses);
-router.get("/requests", authenticateToken, getUserDuelRequests);
-router.get("/active", authenticateToken, getActiveDuels);
-router.get("/finished", authenticateToken, getFinishedDuels);
+router.post("/send", generalAuth, sendDuelRequest);
+router.post("/accept", generalAuth, acceptDuelRequest);
+router.post("/deny", generalAuth, denyDuelRequest);
+router.post("/delete", generalAuth, deleteDuel);
+router.post("/record", generalAuth, recordDuelGuesses);
+router.get("/requests", generalAuth, getUserDuelRequests);
+router.get("/active", generalAuth, getActiveDuels);
+router.get("/finished", generalAuth, getFinishedDuels);
 
 export default router;

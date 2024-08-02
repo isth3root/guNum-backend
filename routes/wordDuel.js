@@ -1,6 +1,7 @@
-// routes/wordDuel.js
+// ========== PACKAGES ========== \\
 import express from 'express';
-// import { authenticateToken } from '../middleware/auth.js';
+
+// ========== CONTROLLERS ========== \\
 import { 
   requestWordDuel, 
   acceptWordDuel, 
@@ -10,13 +11,16 @@ import {
   allWordDuels
 } from '../controllers/wordDuel.js';
 
+// ========== MIDDLEWARE ========== \\
+import { authenticateToken as generalAuth } from '../middleware/auth.js';
+
 const router = express.Router();
 
-router.post('/request', requestWordDuel);
-router.post('/accept', acceptWordDuel);
-router.post('/deny', denyWordDuel);
-router.post('/round', startWordRound);
-router.post('/guess', recordWordGuess);
-router.get('/all', allWordDuels);
+router.post('/request',generalAuth, requestWordDuel);
+router.post('/accept',generalAuth, acceptWordDuel);
+router.post('/deny', generalAuth, denyWordDuel);
+router.post('/round',generalAuth, startWordRound);
+router.post('/guess', generalAuth, recordWordGuess);
+router.get('/all',generalAuth, allWordDuels);
 
 export default router;

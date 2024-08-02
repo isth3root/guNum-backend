@@ -1,3 +1,4 @@
+// ========== MODELS ========== \\
 import User from "../models/User.js";
 
 export const saveHighScore = async (req, res) => {
@@ -11,16 +12,16 @@ export const saveHighScore = async (req, res) => {
     }
 
     if (difficulty === "EASY") {
-      if (score < user.score.easy) {
-        user.score.easy = score;
+      if (score < user.numSinglePlayScore.easy) {
+        user.numSinglePlayScore.easy = score;
       }
     } else if (difficulty === "MEDIUM") {
-      if (score < user.score.medium) {
-        user.score.medium = score;
+      if (score < user.numSinglePlayScore.medium) {
+        user.numSinglePlayScore.medium = score;
       }
     } else if (difficulty === "HARD") {
-      if (score < user.score.hard) {
-        user.score.hard = score;
+      if (score < user.numSinglePlayScore.hard) {
+        user.numSinglePlayScore.hard = score;
       }
     } else {
       return res.status(400).json({ message: "Invalid difficulty level" });

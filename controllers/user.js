@@ -1,4 +1,7 @@
+// ========== MODEL ========== \\
 import User from "../models/User.js";
+
+// ========== PACKAGES ========== \\
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import dotenv from "dotenv";
@@ -54,13 +57,7 @@ export const logout = async (req, res) => {
     if (!user) {
       return res.status(404).json({ error: "Username not found" });
     }
-    res.cookie("token", "", {
-      httpOnly: true,
-      secure: true,
-      sameSite: "Strict",
-      expires: new Date(0),
-    });
-    res.status(200).json({ message: "User logged out and cookie cleared" });
+    res.status(200).json({ message: "User logged out" });
   } catch (err) {
     res.status(500).json({ error: "Server error" });
   }
@@ -68,7 +65,7 @@ export const logout = async (req, res) => {
 
 export const getUsers = async (req, res) => {
   try {
-    const users = await User.find({}).sort({ score: -1 });
+    const users = await User.find({});
     res.status(200).json(users);
   } catch (err) {
     res.status(500).json({ error: "Error during getting all users" });
@@ -79,10 +76,10 @@ export const sortUsers = async (req, res) => {
   const { difficulty } = req.query;
   try {
     const sortCriteria = {
-      easy: { score: { easy: 1 } },
-      medium: { score: { medium: 1 } },
-      hard: { score: { hard: 1 } },
-      DuelXP: { duelXP: -1 },
+      easy: { 'numSinglePlayScore.easy': 1 },
+      medium: { 'numSinglePlayScore.medium': 1 },
+      hard: { 'numSinglePlayScore.hard': 1 },
+      DuelXP: { numDuelXP: -1 },
     };
 
     const sort = sortCriteria[difficulty] || sortCriteria["DuelXP"];
@@ -118,36 +115,12 @@ export const deleteUser = async (req, res) => {
 
     if (user) {
       await User.deleteOne({ username });
-      res.cookie("token", "", {
-        httpOnly: true,
-        secure: false,
-        sameSite: "Strict",
-        expires: new Date(0),
-      });
-      res.status(200).json({ message: "User deleted and cookie cleared" });
+
+      res.status(200).json({ message: "User deleted" });
     } else {
       res.status(404).json({ message: "User not found" });
     }
   } catch (err) {
     res.status(500).json({ error: "Error during delete a user" });
-  }
-};
-
-export const changeUsername = async (req, res) => {
-  const { currentUsername, newUsername } = req.body;
-
-  try {
-    let user = await User.findOne({ username: currentUsername });
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-
-    user.username = newUsername;
-    await user.save();
-
-    res.status(200).json({ user });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Server error" });
   }
 };

@@ -1,9 +1,14 @@
+// ========== PACKAGES ========== \\
 import express from "express";
+
+// ========== CONTROLLERS ========== \\
 import { saveHighScore } from "../controllers/highScore.js";
-import { authenticateToken } from "../middleware/auth.js";
+
+// ========== MIDDLEWARE ========== \\
+import { authenticateToken as generalAuth } from "../middleware/auth.js";
 
 const router = express.Router();
 
-router.post("/", authenticateToken, saveHighScore);
+router.post("/", generalAuth, saveHighScore);
 
 export default router;

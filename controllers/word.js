@@ -1,3 +1,4 @@
+// ========== MODELS ========== \\
 import Word from "../models/Word.js"
 
 export const getSingleWord = async (req, res) => {

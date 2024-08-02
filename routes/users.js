@@ -1,4 +1,7 @@
+// ========== PACKAGES ========== \\
 import express from "express";
+
+// ========== CONTROLLERS ========== \\
 import {
   signup,
   login,
@@ -7,10 +10,10 @@ import {
   sortUsers,
   getUsers,
   getSingleUser,
-  changeUsername,
 } from "../controllers/user.js";
 
-// import { authenticateToken } from "../middleware/auth.js";
+// ========== MIDDLEWARE ========== \\
+import { authenticateToken as generalAuth } from "../middleware/auth.js";
 
 const router = express.Router();
 
@@ -18,9 +21,8 @@ router.post("/signup", signup);
 router.post("/login", login);
 router.post("/logout", logout);
 router.delete("/delete", deleteUser);
-router.get("/sort", sortUsers);
-router.get("/all", getUsers);
-router.get("/one", getSingleUser);
-router.put("/changeusername", changeUsername);
+router.get("/sort",generalAuth, sortUsers);
+router.get("/all",generalAuth, getUsers);
+router.get("/one",generalAuth, getSingleUser);
 
 export default router;
