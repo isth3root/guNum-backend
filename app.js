@@ -20,8 +20,8 @@ const devPORT = process.env.DEV_PORT;
 const app = express();
 app.use(
   cors({
-    // origin: "https://gunumber.netlify.app",
-    origin: `http://localhost:${devPORT}`,
+    origin: "https://gunumber.netlify.app",
+    // origin: `http://localhost:${devPORT}`,
   })
 );
 app.use(cookieParser());
